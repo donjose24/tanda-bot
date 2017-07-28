@@ -15,10 +15,10 @@ class CreateAccoutnsTable extends Migration
     {
         Schema::create('accounts', function ($table) {
             $table->increments('id');
-            $table->string('user_id');
-            $table->string('token');
-            $table->string('first_name');
-            $table->string('last_name');
+            $table->string('user_id')->default('');
+            $table->string('token')->default('');
+            $table->string('first_name')->default('');
+            $table->string('last_name')->default('');
         });
     }
 

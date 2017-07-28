@@ -20,11 +20,20 @@ class SettingsConversation extends Conversation
      */
     public function getToken()
     {
-        $token = '';
-
         $this->ask('Hi I\'m Tanya, your cool and awesome tanda assistant. to start, please enter your token: ', function (Answer $answer) use ($token) {
             $token = $answer->getText();
+            $this->api = new TandaApi($token);
+            $this->askQuestions();
         });
+    }
+
+    /**
+     * undocumented function
+     *
+     * @return void
+     */
+    public function askQuestions()
+    {
 
         $question = Question::create('What do you want to do?')
             ->fallback('Unable to ask question')
@@ -37,16 +46,15 @@ class SettingsConversation extends Conversation
                 Button::create('Bye')->value('Yoko na'),
             ]);
 
-        return $this->ask($question, function (Answer $answer) use ($token) {
-            $api = new TandaApi($token);
+        $this->ask($question, function (Answer $answer) {
             if ($answer->isInteractiveMessageReply()) {
                 if ($answer->getValue() === 'joke') {
                     $joke = json_decode(file_get_contents('http://api.icndb.com/jokes/random'));
                     $this->say($joke->value->joke);
                 } else if ($answer->getValue() === 'timein') {
-                    $api->clockIn();
+                    $this->api->clockIn();
                 } else if ($answer->getValue() === 'timeout') {
-                    $api->clockOut();
+                    $this->api->clockOut();
                 } else if ($answer->getValue() === 'quote') {
                     $this->say(Inspiring::quote());
                 } else {

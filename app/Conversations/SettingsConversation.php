@@ -8,6 +8,7 @@ use Mpociot\BotMan\Button;
 use Mpociot\BotMan\Conversation;
 use Mpociot\BotMan\Question;
 use App\Utilities\TandaApi;
+use Session;
 
 class SettingsConversation extends Conversation
 {
@@ -20,10 +21,15 @@ class SettingsConversation extends Conversation
      */
     public function getToken()
     {
-        $this->ask('Hi! I\'m Tanya, your cool and awesome tanda assistant. to start, please enter your token: ', function (Answer $answer) {
-            $token = $answer->getText();
+        if (! Session::has('token')) {
+            $this->ask('Hi! I\'m Tanya, your cool and awesome tanda assistant. to start, please enter your token: ', function (Answer $answer) {
+                $token = $answer->getText();
+                $this->askQuestions($token);
+            });
+        } else {
+            $token = Session::get('token');
             $this->askQuestions($token);
-        });
+        }
     }
 
     /**

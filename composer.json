@@ -10,14 +10,16 @@
         "mpociot/botman": "~1.0",
         "mpociot/slack-client": "^0.2.6",
         "clue/stdio-react": "^1.0",
-        "mpociot/botman-tinker": "^0.1.1"
+        "mpociot/botman-tinker": "^0.1.1",
+        "guzzlehttp/guzzle": "^6.3"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
         "mockery/mockery": "0.9.*",
         "phpunit/phpunit": "~5.0",
         "symfony/css-selector": "3.1.*",
-        "symfony/dom-crawler": "3.1.*"
+        "symfony/dom-crawler": "3.1.*",
+        "laravel/homestead": "^5.4"
     },
     "autoload": {
         "classmap": [

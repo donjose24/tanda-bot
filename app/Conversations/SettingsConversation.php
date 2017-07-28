@@ -10,6 +10,7 @@ use Mpociot\BotMan\Conversation;
 use Mpociot\BotMan\Question;
 use App\Utilities\TandaApi;
 use Session;
+use Mpociot\BotMan\Attachments\Location;
 
 class SettingsConversation extends Conversation
 {
@@ -37,7 +38,8 @@ class SettingsConversation extends Conversation
                 $this->askQuestions($token);
             });
         } else {
-            $this->askForLocation('Is it okay for me to get your current location? I will use my psychic powers to find out when you need to leave', function () {
+            $this->askForLocation('Is it okay for me to get your current location? I will use my psychic powers to find out when you need to leave', function (Location $location) use($bot) {
+                $this->say('Received: '.print_r($location, true));
                 $user = Account::where('user_id', $bot->getUser()->getId())->first();
                 $this->say('Welcome back!');
                 $this->askQuestions($user->token);

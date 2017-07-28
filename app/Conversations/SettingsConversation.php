@@ -20,7 +20,7 @@ class SettingsConversation extends Conversation
      */
     public function getToken()
     {
-        $this->ask('Hi I\'m Tanya, your cool and awesome tanda assistant. to start, please enter your token: ', function (Answer $answer) use ($token) {
+        $this->ask('Hi I\'m Tanya, your cool and awesome tanda assistant. to start, please enter your token: ', function (Answer $answer) {
             $token = $answer->getText();
             $this->api = new TandaApi($token);
             $this->askQuestions();

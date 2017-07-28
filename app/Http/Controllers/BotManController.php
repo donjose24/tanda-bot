@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Conversations\ExampleConversation;
 use Illuminate\Http\Request;
 use Mpociot\BotMan\BotMan;
+use App\Conversations\SettingsConversation;
 
 class BotManController extends Controller
 {
@@ -18,11 +19,7 @@ class BotManController extends Controller
 
         // Simple respond method
         $botman->hears('Hello', function (BotMan $bot) {
-            $bot->reply('Hi I\'m Tanya, your cool and awesome tanda assistant. to start, type /create [tanda_access_token]');
-        });
-
-        $botman->hears('/create', function (BotMan $bot) use ($request) {
-            $bot->reply(var_dump($request));
+            $bot->startConversation(new SettingsConversation);
         });
 
         $botman->listen();

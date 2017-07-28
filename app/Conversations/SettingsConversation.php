@@ -37,11 +37,12 @@ class SettingsConversation extends Conversation
                 $this->askQuestions($token);
             });
         } else {
-            $user = Account::where('user_id', $bot->getUser()->getId())->first();
-            $this->say('Welcome back!');
-            $this->askQuestions($user->token);
+            $this->askForLocation('Is it okay for me to get your current location? I will use my psychic powers to find out when you need to leave', function () {
+                $user = Account::where('user_id', $bot->getUser()->getId())->first();
+                $this->say('Welcome back!');
+                $this->askQuestions($user->token);
+            });
         }
-
     }
 
     /**

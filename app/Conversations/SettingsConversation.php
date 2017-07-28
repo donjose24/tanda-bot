@@ -2,6 +2,7 @@
 
 namespace App\Conversations;
 
+use App\Account;
 use Illuminate\Foundation\Inspiring;
 use Mpociot\BotMan\Answer;
 use Mpociot\BotMan\Button;
@@ -12,8 +13,6 @@ use Session;
 
 class SettingsConversation extends Conversation
 {
-    private $api;
-
     /**
      * Makes Menu
      *
@@ -21,15 +20,28 @@ class SettingsConversation extends Conversation
      */
     public function getToken()
     {
-        if (! Session::has('token')) {
-            $this->ask('Hi! I\'m Tanya, your cool and awesome tanda assistant. to start, please enter your token: ', function (Answer $answer) {
+        $bot = $this->bot;
+        if (Account::where('user_id', $bot->getUser()->getId())->count() == 0) {
+            $user = $bot->getUser();
+
+            $account = new Account();
+            $account->user_id = $user->getId();
+            $account->first_name = $user->getFirstName();
+            $account->last_name = $user->getLastName();
+
+            $account->save();
+            $this->ask('Hi! I\'m Tanya, your cool and awesome tanda assistant. to start, Since you are a first time user, please enter your tanda token: ', function (Answer $answer) use ($account) {
                 $token = $answer->getText();
+                $account->token = $token;
+                $account->save();
                 $this->askQuestions($token);
             });
         } else {
-            $token = Session::get('token');
-            $this->askQuestions($token);
+            $user = Account::where('user_id', $bot->getUser()->getId())->first();
+            $this->say('Welcome back!');
+            $this->askQuestions($user->token);
         }
+
     }
 
     /**

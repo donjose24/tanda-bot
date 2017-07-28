@@ -53,9 +53,11 @@ class SettingsConversation extends Conversation
                 } else if ($answer->getValue() === 'timein') {
                     $api = new TandaApi($token);
                     $api->clockIn();
+                    $this->say("Gotcha!");
                 } else if ($answer->getValue() === 'timeout') {
                     $api = new TandaApi($token);
                     $api->clockOut();
+                    $this->say("Take Care!");
                 } else if ($answer->getValue() === 'quote') {
                     $this->say(Inspiring::quote());
                 } else {

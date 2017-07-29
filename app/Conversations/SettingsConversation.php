@@ -127,7 +127,12 @@ class SettingsConversation extends Conversation
             $destination = $answer->getText();
             $googleApi = new GoogleApi();
             $response = $googleApi->getDistance($origin, urlencode($destination));
-            $this->say("You are " . $response['rows'][0]['elements'][0]['duration']['text'] . " from your destination");
+            try {
+                $this->say("You are " . $response['rows'][0]['elements'][0]['duration']['text'] . " from your destination");
+            } catch (Exception $e) {
+                $this->say('Place not found');
+                \Log::error('Response: ' . var_dump($response));
+            }
             $this->quotePrice($location, $destination);
         });
     }

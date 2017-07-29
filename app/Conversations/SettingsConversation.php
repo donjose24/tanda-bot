@@ -59,8 +59,7 @@ class SettingsConversation extends Conversation
             ->callbackId('ask_reason')
             ->addButtons([
                 Button::create('Tell a joke')->value('joke'),
-                Button::create('Inspiring Quote')->value('quote'),
-                Button::create('Time in')->value('timein'),
+                Button::create('Inspiring Quote')->value('quote'), Button::create('Time in')->value('timein'),
                 Button::create('Time out')->value('timeout'),
                 Button::create('Get Travel Time')->value('traffic'),
                 Button::create('Bye')->value('Yoko na'),
@@ -158,7 +157,8 @@ class SettingsConversation extends Conversation
                 ->callbackId('ask_reason')
                 ->addButtons($buttons);
 
-            $this->ask($question, function (Answer $answer) use ($uberApi) {
+            $this->ask($question, function (Answer $answer) {
+                $uberApi = new UberApi();
                 if ($answer->isInteractiveMessageReply()) {
                     $this->say('Booking submitted. Will notify you once i found a driver for you =)');
                     $choice = $answer->getValue();

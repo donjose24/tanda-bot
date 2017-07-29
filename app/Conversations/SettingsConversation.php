@@ -9,6 +9,7 @@ use Mpociot\BotMan\Button;
 use Mpociot\BotMan\Conversation;
 use Mpociot\BotMan\Question;
 use App\Utilities\TandaApi;
+use App\Utilities\GoogleApi;
 use Session;
 use Mpociot\BotMan\Attachments\Location;
 
@@ -60,6 +61,7 @@ class SettingsConversation extends Conversation
                 Button::create('Inspiring Quote')->value('quote'),
                 Button::create('Time in')->value('timein'),
                 Button::create('Time out')->value('timeout'),
+                Button::create('Get Travel Time')->value('traffic'),
                 Button::create('Bye')->value('Yoko na'),
             ]);
 
@@ -78,6 +80,8 @@ class SettingsConversation extends Conversation
                     $this->say("Take Care!");
                 } else if ($answer->getValue() === 'quote') {
                     $this->say(Inspiring::quote());
+                } else if ($answer->getValue() === 'traffic') {
+                    $this->askLocation();
                 } else {
                     $this->say('Bye!');
                 }
@@ -91,8 +95,7 @@ class SettingsConversation extends Conversation
      */
     public function run()
     {
-        //$this->getToken();
-        $this->askLocation();
+        $this->getToken();
     }
 
     /**
@@ -101,7 +104,7 @@ class SettingsConversation extends Conversation
     public function askLocation()
     {
         $this->askForLocation('Please share your location:', function (Location $location) {
-            $this->say('Received: '.print_r($location, true));
+            $this->askForDestination($location);
         }, null, [
             'message' => [
                 'quick_replies' => json_encode([
@@ -111,5 +114,19 @@ class SettingsConversation extends Conversation
                 ])
             ]
         ]);
+    }
+
+    /**
+     * Asks for destination, to be geocode
+     */
+    public function askForDestination(Location $location)
+    {
+        $this->ask("Where do you wanna go?", function (Answer $answer) use ($location) {
+            $origin = $location.latitude . ',' . $location.longitude;
+            $destination = $answer->getText();
+            $googleApi = new GoogleApi();
+            $response = $googleApi->getDistance($origin, $destination);
+            $this->say(var_dump($response));
+        });
     }
 }

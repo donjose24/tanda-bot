@@ -27,5 +27,7 @@ class GoogleApi
             'GET',
             "$this->baseUri/maps/api/distancematrix/json?origins=$origin&destinations=$destination&key=$apiKey"
         );
+
+        return json_decode($response->getBody());
     }
 }

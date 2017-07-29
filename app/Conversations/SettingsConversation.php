@@ -143,6 +143,6 @@ class SettingsConversation extends Conversation
         $uberApi = new UberApi();
 
         $response = $uberApi->getQuotes($location, $lat, $lng);
-        $this->say("Uber costs: " . print_r($response));
+        $this->say("Uber costs: " . $response['prices'][0]['estimate']);
     }
 }

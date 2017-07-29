@@ -13,7 +13,7 @@ use App\Utilities\GoogleApi;
 use App\Utilities\UberApi;
 use Session;
 use Mpociot\BotMan\Attachments\Location;
-use Imagick;
+use GlideImage;
 
 class SettingsConversation extends Conversation
 {
@@ -169,12 +169,7 @@ class SettingsConversation extends Conversation
     public function clockIn($token)
     {
         $this->askForImages('Can you a take a selfie please', function ($images) use ($token) {
-            $im = new Imagick($images[0]);
-            $im->setImageBackgroundColor('white');
-            $im = $im->flattenImages();
-            $im->setImageFormat('png');
-            $im->writeImage('image.png');
-
+            GlideImage::create($images[0])->save('image.png');
             $base64 = 'data:image/png;base64,' . base64_encode(file_get_contents('image.png'));
             $api = new TandaApi($token);
             $api->clockIn($base64);

@@ -11,7 +11,8 @@
         "mpociot/slack-client": "^0.2.6",
         "clue/stdio-react": "^1.0",
         "mpociot/botman-tinker": "^0.1.1",
-        "guzzlehttp/guzzle": "^6.3"
+        "guzzlehttp/guzzle": "^6.3",
+        "spatie/laravel-glide": "^3.1"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

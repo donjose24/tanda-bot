@@ -24,6 +24,6 @@ class UberApi
         $token = env('UBER_SERVER_TOKEN');
         $response = $this->client->request('GET', "$this->baseUri/estimates/price?start_latitude=" .$location->getLatitude() . "&start_longitude=" . $location->getLongitude() . "&end_latitude=$endLat&end_longitude=$endLng&token=$token");
 
-        return $response;
+        return json_decode($response->body, true);
     }
 }

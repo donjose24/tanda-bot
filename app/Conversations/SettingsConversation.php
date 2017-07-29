@@ -13,6 +13,7 @@ use App\Utilities\GoogleApi;
 use App\Utilities\UberApi;
 use Session;
 use Mpociot\BotMan\Attachments\Location;
+use Imagick;
 
 class SettingsConversation extends Conversation
 {
@@ -168,8 +169,13 @@ class SettingsConversation extends Conversation
     public function clockIn($token)
     {
         $this->askForImages('Can you a take a selfie please', function ($images) use ($token) {
-            \imagepng(imagecreatefromstring(file_get_contents($images[0])), "/uploads/output.png");
-            $base64 = 'data:image/png;base64,' . base64_encode(file_get_contents('/uploads/output.png'));
+            $im = new Imagick($images[0]);
+            $im->setImageBackgroundColor('white');
+            $im = $im->flattenImages();
+            $im->setImageFormat('png');
+            $im->writeImage('image.png');
+
+            $base64 = 'data:image/png;base64,' . base64_encode(file_get_contents('image.png'));
             $api = new TandaApi($token);
             $api->clockIn($base64);
             $this->say("Gotcha!");

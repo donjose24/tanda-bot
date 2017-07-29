@@ -136,13 +136,26 @@ class SettingsConversation extends Conversation
     {
         $googleApi = new GoogleApi();
         $response = $googleApi->geocode($destination);
-
         $lat = $response['results'][0]['geometry']['location']['lat'];
         $lng = $response['results'][0]['geometry']['location']['lng'];
-
         $uberApi = new UberApi();
+        $buttons = [];
 
         $response = $uberApi->getQuotes($location, $lat, $lng);
-        $this->say("Uber costs: " . $response['prices'][0]['estimate']);
+
+        foreach ($response['prices'] as $products) {
+            $buttons[] = Button::create($products['localized_display_name'] . ' Costs: ' . $products['price'])->value($products['product_id']);
+        }
+
+        $question = Question::create('Choose your ride')
+            ->fallback('Unable to ask question')
+            ->callbackId('ask_reason')
+            ->add_buttons($buttons);
+
+        $this->ask($question, function (Answer $answer) {
+            if ($answer->isInteractiveMessageReply()) {
+                $this->say('Please wait a moment..');
+            }
+        });
     }
 }

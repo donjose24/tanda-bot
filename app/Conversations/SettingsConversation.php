@@ -127,6 +127,18 @@ class SettingsConversation extends Conversation
             $googleApi = new GoogleApi();
             $response = $googleApi->getDistance($origin, urlencode($destination));
             $this->say("You are " . $response['rows'][0]['elements'][0]['duration']['text'] . " from your destination");
+            $this->quotePrice($location, $destination);
         });
+    }
+
+    public function quotePrice(Location $location, $destination)
+    {
+        $googleApi = new GoogleApi();
+        $response = $googleApi->geocode($destination);
+
+        $lat = $response['results'][0]['geometry']['location']['lat'];
+        $lng = $response['results'][0]['geometry']['location']['lng'];
+
+        $this->say("Uber costs: $lat");
     }
 }

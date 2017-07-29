@@ -150,7 +150,7 @@ class SettingsConversation extends Conversation
         $question = Question::create('Choose your ride')
             ->fallback('Unable to ask question')
             ->callbackId('ask_reason')
-            ->add_buttons($buttons);
+            ->addButtons($buttons);
 
         $this->ask($question, function (Answer $answer) {
             if ($answer->isInteractiveMessageReply()) {

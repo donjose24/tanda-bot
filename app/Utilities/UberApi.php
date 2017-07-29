@@ -28,7 +28,7 @@ class UberApi
 
     public function estimateFare($location, $endLat, $endLng, $productId)
     {
-        $response = $this->client->request('POST', "$this->baseUri/request/estimate", [
+        $response = $this->client->request('POST', "$this->baseUri/requests/estimate", [
             'form_params' => [
                 'start_latitude' => $location->getLatitude(),
                 'start_longitude' => $location->getLongitude(),

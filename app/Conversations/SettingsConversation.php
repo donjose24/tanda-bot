@@ -158,7 +158,7 @@ class SettingsConversation extends Conversation
                 ->callbackId('ask_reason')
                 ->addButtons($buttons);
 
-            $this->ask($question, function (Answer $answer) {
+            $this->ask($question, function (Answer $answer) use ($uberApi) {
                 if ($answer->isInteractiveMessageReply()) {
                     $this->say('Booking submitted. Will notify you once i found a driver for you =)');
                     $choice = $answer->getValue();

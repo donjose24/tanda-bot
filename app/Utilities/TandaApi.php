@@ -32,7 +32,7 @@ class TandaApi
      *
      * @return void
      */
-    public function clockIn()
+    public function clockIn($base64)
     {
         $now = Carbon::now()->timestamp;
         $this->client->request('POST', $this->baseUri . '/clockins', [
@@ -40,6 +40,7 @@ class TandaApi
                 'user_id' => $this->user->id,
                 'type' => 'clockin',
                 'time' => $now,
+                'photo' => $base64,
             ]
         ]);
     }

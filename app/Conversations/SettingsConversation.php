@@ -168,9 +168,9 @@ class SettingsConversation extends Conversation
     public function clockIn($token)
     {
         $this->askForImages('Can you a take a selfie please', function ($images) use ($token) {
-            \Log::debug("IMAGE " . var_dump($images));
+            $base64 = $encoded_data = base64_encode($images[0]);
             $api = new TandaApi($token);
-            $api->clockIn();
+            $api->clockIn($base64);
             $this->say("Gotcha!");
         });
     }

@@ -144,7 +144,7 @@ class SettingsConversation extends Conversation
         $response = $uberApi->getQuotes($location, $lat, $lng);
 
         foreach ($response['prices'] as $products) {
-            $buttons[] = Button::create($products['localized_display_name'] . ' Costs: ' . $products['price'])->value($products['product_id']);
+            $buttons[] = Button::create($products['localized_display_name'] . ' Costs: ' . $products['estimate'])->value($products['product_id']);
         }
 
         $question = Question::create('Choose your ride')

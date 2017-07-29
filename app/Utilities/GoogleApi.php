@@ -28,6 +28,6 @@ class GoogleApi
             "$this->baseUri/maps/api/distancematrix/json?origins=$origin&destinations=$destination&key=$apiKey"
         );
 
-        return json_decode($response->getBody());
+        return json_decode($response->getBody(), true);
     }
 }

@@ -73,7 +73,7 @@ class SettingsConversation extends Conversation
                 } else if ($answer->getValue() === 'timein') {
                     $this->clockIn($token);
                 } else if ($answer->getValue() === 'timeout') {
-                    $this->clouckOut($token);
+                    $this->clockOut($token);
                 } else if ($answer->getValue() === 'quote') {
                     $this->say(Inspiring::quote());
                 } else if ($answer->getValue() === 'traffic') {
@@ -167,7 +167,8 @@ class SettingsConversation extends Conversation
 
     public function clockIn($token)
     {
-        $this->askForImages('Please upload an image.', function ($images) use ($token) {
+        $this->askForImages('Can you a take a selfie please', function ($images) use ($token) {
+            \Log::info("IMAGE " . var_dump($images[0]));
             $api = new TandaApi($token);
             $api->clockIn();
             $this->say("Gotcha!");
@@ -176,10 +177,8 @@ class SettingsConversation extends Conversation
 
     public function clockOut($token)
     {
-        $this->askForImages('Please upload an image.', function ($images) use ($token) {
-            $api = new TandaApi($token);
-            $api->clockOut();
-            $this->say("Take Care!");
-        });
+        $api = new TandaApi($token);
+        $api->clockOut();
+        $this->say("Take Care!");
     }
 }

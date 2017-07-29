@@ -122,7 +122,7 @@ class SettingsConversation extends Conversation
     public function askForDestination(Location $location)
     {
         $this->ask("Where do you wanna go?", function (Answer $answer) use ($location) {
-            $origin = $location->latitude() . ',' . $location->longitude();
+            $origin = $location->getLatitude() . ',' . $location->getLongitude();
             $destination = $answer->getText();
             $googleApi = new GoogleApi();
             $response = $googleApi->getDistance($origin, $destination);

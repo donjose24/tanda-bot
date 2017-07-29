@@ -12,7 +12,7 @@ class UberApi
         $token = env('UBER_SERVER_TOKEN');
         $client = new \GuzzleHttp\Client([
             'headers' => [
-                'Authorization' => 'token ' . $token,
+                'Authorization' => 'Token ' . $token,
             ]
         ]);
 

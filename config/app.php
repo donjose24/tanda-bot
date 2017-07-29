@@ -177,7 +177,7 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-        Spatie\Glide\GlideServiceProvider::class,
+        Intervention\Image\ImageServiceProvider::class
     ],
 
     /*
@@ -226,7 +226,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'BotMan' => Mpociot\BotMan\Facades\BotMan::class,
-        'GlideImage' => Spatie\Glide\GlideImageFacade::class,
+        'Image' => Intervention\Image\Facades\Image::class
 
     ],
 

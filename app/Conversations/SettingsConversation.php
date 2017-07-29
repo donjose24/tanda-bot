@@ -10,6 +10,7 @@ use Mpociot\BotMan\Conversation;
 use Mpociot\BotMan\Question;
 use App\Utilities\TandaApi;
 use App\Utilities\GoogleApi;
+use App\Utilities\UberApi;
 use Session;
 use Mpociot\BotMan\Attachments\Location;
 
@@ -139,6 +140,9 @@ class SettingsConversation extends Conversation
         $lat = $response['results'][0]['geometry']['location']['lat'];
         $lng = $response['results'][0]['geometry']['location']['lng'];
 
+        $uberApi = new UberApi();
+
+        $response = $uberApi->getQuotes($location, $lat, $lng);
         $this->say("Uber costs: $lat");
     }
 }

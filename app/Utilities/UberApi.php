@@ -5,7 +5,7 @@ namespace App\Utilities;
 class UberApi
 {
     private $client;
-    private $baseUri='https://api.uber.com/v1.2';
+    private $baseUri='https://sandbox-api.uber.com/v1.2';
 
     public function __construct()
     {

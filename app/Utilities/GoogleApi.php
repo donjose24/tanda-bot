@@ -36,7 +36,7 @@ class GoogleApi
         $apiKey = env('GOOGLE_API_KEY');
         $response = $this->client->request(
             'GET',
-            "$this->baseUri/geocode/json?address=$location&key=$apiKey"
+            "$this->baseUri/maps/api/geocode/json?address=$location&key=$apiKey"
         );
 
         return json_decode($response->getBody(), true);

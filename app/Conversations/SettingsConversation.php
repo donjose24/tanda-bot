@@ -71,13 +71,9 @@ class SettingsConversation extends Conversation
                     $joke = json_decode(file_get_contents('http://api.icndb.com/jokes/random'));
                     $this->say($joke->value->joke);
                 } else if ($answer->getValue() === 'timein') {
-                    $api = new TandaApi($token);
-                    $api->clockIn();
-                    $this->say("Gotcha!");
+                    $this->clockIn($token);
                 } else if ($answer->getValue() === 'timeout') {
-                    $api = new TandaApi($token);
-                    $api->clockOut();
-                    $this->say("Take Care!");
+                    $this->clouckOut($token);
                 } else if ($answer->getValue() === 'quote') {
                     $this->say(Inspiring::quote());
                 } else if ($answer->getValue() === 'traffic') {
@@ -161,13 +157,29 @@ class SettingsConversation extends Conversation
                 $uberApi = new UberApi();
                 if ($answer->isInteractiveMessageReply()) {
                     $this->say('Booking submitted. Will notify you once i found a driver for you =)');
-                    $choice = $answer->getValue();
-                    $response = $uberApi->estimateFare($location, $lat, $lng, $choice);
                 }
             });
         } catch (Exception $e) {
             $this->say('Error connecting to google');
             \Log::error('Error: ' . $e->getMessage());
         }
+    }
+
+    public function clockIn()
+    {
+        $this->askForImages('Please upload an image.', function ($images) {
+            $api = new TandaApi($token);
+            $api->clockIn();
+            $this->say("Gotcha!");
+        });
+    }
+
+    public function clockOut()
+    {
+        $this->askForImages('Please upload an image.', function ($images) {
+            $api = new TandaApi($token);
+            $api->clockOut();
+            $this->say("Take Care!");
+        });
     }
 }

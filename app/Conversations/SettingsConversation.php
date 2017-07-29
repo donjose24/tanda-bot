@@ -165,18 +165,18 @@ class SettingsConversation extends Conversation
         }
     }
 
-    public function clockIn()
+    public function clockIn($token)
     {
-        $this->askForImages('Please upload an image.', function ($images) {
+        $this->askForImages('Please upload an image.', function ($images) use ($token) {
             $api = new TandaApi($token);
             $api->clockIn();
             $this->say("Gotcha!");
         });
     }
 
-    public function clockOut()
+    public function clockOut($token)
     {
-        $this->askForImages('Please upload an image.', function ($images) {
+        $this->askForImages('Please upload an image.', function ($images) use ($token) {
             $api = new TandaApi($token);
             $api->clockOut();
             $this->say("Take Care!");

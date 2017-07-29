@@ -139,28 +139,35 @@ class SettingsConversation extends Conversation
 
     public function quotePrice(Location $location, $destination)
     {
-        $googleApi = new GoogleApi();
-        $response = $googleApi->geocode($destination);
-        $lat = $response['results'][0]['geometry']['location']['lat'];
-        $lng = $response['results'][0]['geometry']['location']['lng'];
-        $uberApi = new UberApi();
-        $buttons = [];
+        try {
+            $googleApi = new GoogleApi();
+            $response = $googleApi->geocode($destination);
+            $lat = $response['results'][0]['geometry']['location']['lat'];
+            $lng = $response['results'][0]['geometry']['location']['lng'];
+            $uberApi = new UberApi();
+            $buttons = [];
 
-        $response = $uberApi->getQuotes($location, $lat, $lng);
+            $response = $uberApi->getQuotes($location, $lat, $lng);
 
-        foreach ($response['prices'] as $products) {
-            $buttons[] = Button::create($products['localized_display_name'] . ' Costs: ' . $products['estimate'])->value($products['product_id']);
-        }
-
-        $question = Question::create('Choose your ride')
-            ->fallback('Unable to ask question')
-            ->callbackId('ask_reason')
-            ->addButtons($buttons);
-
-        $this->ask($question, function (Answer $answer) {
-            if ($answer->isInteractiveMessageReply()) {
-                $this->say('Please wait a moment..');
+            foreach ($response['prices'] as $products) {
+                $buttons[] = Button::create($products['localized_display_name'] . ' Costs: ' . $products['estimate'])->value($products['product_id']);
             }
-        });
+
+            $question = Question::create('Choose your ride')
+                ->fallback('Unable to ask question')
+                ->callbackId('ask_reason')
+                ->addButtons($buttons);
+
+            $this->ask($question, function (Answer $answer) {
+                if ($answer->isInteractiveMessageReply()) {
+                    $this->say('Booking submitted. Will notify you once i found a driver for you =)');
+                    $choice = $answer->getValue();
+                    $response = $uberApi->estimateFare($location, $lat, $lng, $choice);
+                }
+            });
+        } catch (Exception $e) {
+            $this->say('Error connecting to google');
+            \Log::error('Error: ' . $e->getMessage());
+        }
     }
 }

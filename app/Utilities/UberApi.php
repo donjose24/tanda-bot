@@ -21,9 +21,26 @@ class UberApi
 
     public function getQuotes($location, $endLat, $endLng)
     {
-        $token = env('UBER_SERVER_TOKEN');
-        $response = $this->client->request('GET', "$this->baseUri/estimates/price?start_latitude=" .$location->getLatitude() . "&start_longitude=" . $location->getLongitude() . "&end_latitude=$endLat&end_longitude=$endLng&token=$token");
+        $response = $this->client->request('GET', "$this->baseUri/estimates/price?start_latitude=" .$location->getLatitude() . "&start_longitude=" . $location->getLongitude() . "&end_latitude=$endLat&end_longitude=$endLng");
 
         return json_decode($response->getBody(), true);
+    }
+
+    public function estimateFare($location, $endLat, $endLng, $productId)
+    {
+        $response = $this->client->request('POST', "$this->baseUri/request/estimate", [
+            'body' => [
+                'start_latitude' => $location->getLatitude(),
+                'start_longitude' => $location->getLongitude(),
+                'end_longitude' => $endLng,
+                'end_latitude' => $endLat,
+                'product_id' => $productId,
+            ]
+        ]);
+    }
+
+    public function book($location, $endLat, $endLng)
+    {
+        $response = $this->client->request('GET', "$this->baseUri/estimates/price?start_latitude=" .$location->getLatitude() . "&start_longitude=" . $location->getLongitude() . "&end_latitude=$endLat&end_longitude=$endLng");
     }
 }

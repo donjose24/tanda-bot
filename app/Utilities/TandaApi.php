@@ -7,9 +7,7 @@ use Carbon\Carbon;
 class TandaApi
 {
     private $user;
-
     private $client;
-
     private $baseUri = 'https://my.tanda.co/api/v2';
 
     public function __construct($token)

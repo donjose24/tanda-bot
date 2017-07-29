@@ -86,8 +86,30 @@ class SettingsConversation extends Conversation
     }
 
 
+    /**
+     * Run conversation
+     */
     public function run()
     {
-        $this->getToken();
+        //$this->getToken();
+        $this->askForLocation();
+    }
+
+    /**
+     * Ask for location
+     */
+    public function askLocation()
+    {
+        $this->askForLocation('Please share your location:', function (Location $location) {
+            $this->say('Received: '.print_r($location, true));
+        }, null, [
+            'message' => [
+                'quick_replies' => json_encode([
+                    [
+                        'content_type' => 'location'
+                    ]
+                ])
+            ]
+        ]);
     }
 }

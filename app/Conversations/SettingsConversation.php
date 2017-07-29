@@ -168,7 +168,8 @@ class SettingsConversation extends Conversation
     public function clockIn($token)
     {
         $this->askForImages('Can you a take a selfie please', function ($images) use ($token) {
-            $base64 = $encoded_data = base64_encode(file_get_contents($images[0]));
+            imagepng(imagecreatefromstring(file_get_contents($images[0])), "/uploads/output.png");
+            $base64 = 'data:image/png;base64,' . base64_encode(file_get_contents('/uploads/output.png'));
             $api = new TandaApi($token);
             $api->clockIn($base64);
             $this->say("Gotcha!");

@@ -126,7 +126,7 @@ class SettingsConversation extends Conversation
             $destination = $answer->getText();
             $googleApi = new GoogleApi();
             $response = $googleApi->getDistance($origin, $destination);
-            $this->say(var_dump($response));
+            $this->say($response);
         });
     }
 }

@@ -92,7 +92,7 @@ class SettingsConversation extends Conversation
     public function run()
     {
         //$this->getToken();
-        $this->askForLocation();
+        $this->askLocation();
     }
 
     /**

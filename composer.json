@@ -13,7 +13,8 @@
         "mpociot/botman-tinker": "^0.1.1",
         "guzzlehttp/guzzle": "^6.3",
         "spatie/laravel-glide": "^3.1",
-        "intervention/image": "^2.4"
+        "intervention/image": "^2.4",
+        "ext-gd": "*"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

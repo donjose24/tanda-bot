@@ -20,6 +20,9 @@ class GoogleApi
         $this->client = $client;
     }
 
+    /**
+     * Computes for the distance
+     */
     public function getDistance($origin, $destination)
     {
         $apiKey = env('GOOGLE_API_KEY');
@@ -31,6 +34,9 @@ class GoogleApi
         return json_decode($response->getBody(), true);
     }
 
+    /**
+     * Translates a string destination to lat/long
+     */
     public function geocode($location)
     {
         $apiKey = env('GOOGLE_API_KEY');

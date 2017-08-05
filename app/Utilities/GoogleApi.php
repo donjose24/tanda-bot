@@ -31,6 +31,10 @@ class GoogleApi
             "$this->baseUri/maps/api/distancematrix/json?origins=$origin&destinations=$destination&key=$apiKey"
         );
 
+        if ($response->getStatusCode() >= 400) {
+            return new Exception('No area found');
+        }
+
         return json_decode($response->getBody(), true);
     }
 
@@ -44,6 +48,10 @@ class GoogleApi
             'GET',
             "$this->baseUri/maps/api/geocode/json?address=$location&key=$apiKey"
         );
+
+        if ($response->getStatusCode() >= 400) {
+            return new Exception('No area found');
+        }
 
         return json_decode($response->getBody(), true);
     }

@@ -125,7 +125,7 @@ class SettingsConversation extends Conversation
             $response = $googleApi->getDistance($origin, urlencode($destination));
             try {
                 $this->say("You are " . $response['rows'][0]['elements'][0]['duration']['text'] . " from your destination");
-            } catch (ErrorException $e) {
+            } catch (\Exception $e) {
                 $this->say('Place not found');
                 \Log::error('Response: ' . var_dump($response));
             }
@@ -160,7 +160,7 @@ class SettingsConversation extends Conversation
                     $this->say('Booking submitted. Will notify you once i found a driver for you =)');
                 }
             });
-        } catch (ErrorException $e) {
+        } catch (\Exception $e) {
             $this->say('Error connecting to google');
             \Log::error('Error: ' . $e->getMessage());
         }

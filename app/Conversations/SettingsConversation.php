@@ -168,21 +168,31 @@ class SettingsConversation extends Conversation
 
     public function clockIn($token)
     {
-        $this->askForImages('Can you a take a selfie please', function ($images) use ($token) {
+        try {
+            $this->askForImages('Can you a take a selfie please', function ($images) use ($token) {
 
-            Image::make($images[0])->save('image.png');
+                Image::make($images[0])->save('image.png');
 
-            $base64 = 'data:image/png;base64,' . base64_encode(file_get_contents('image.png'));
-            $api = new TandaApi($token);
-            $api->clockIn($base64);
-            $this->say("Gotcha!");
-        });
+                $base64 = 'data:image/png;base64,' . base64_encode(file_get_contents('image.png'));
+                $api = new TandaApi($token);
+                $api->clockIn($base64);
+                $this->say("Gotcha!");
+            });
+        } catch (\Exception $e) {
+            $this->say('Error connecting to tanda. you may have input an invalid access token');
+            \Log::error('Error: ' . $e->getMessage());
+        }
     }
 
     public function clockOut($token)
     {
-        $api = new TandaApi($token);
-        $api->clockOut();
-        $this->say("Take Care!");
+        try {
+            $api = new TandaApi($token);
+            $api->clockOut();
+            $this->say("Take Care!");
+        } catch (\Exception $e) {
+            $this->say('Error connecting to tanda. you may have input an invalid access token');
+            \Log::error('Error: ' . $e->getMessage());
+        }
     }
 }

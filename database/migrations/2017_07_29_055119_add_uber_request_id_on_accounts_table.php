@@ -25,7 +25,7 @@ class AddUberRequestIdOnAccountsTable extends Migration
      */
     public function down()
     {
-        Schema::table('accounts', function () {
+        Schema::table('accounts', function ($table) {
             $table->dropColumn('uber_request_id');
         });
     }
